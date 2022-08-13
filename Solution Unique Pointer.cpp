@@ -7,24 +7,24 @@ using namespace std;
 class RLEIterator {
     
     inline static const int NOT_FOUND = -1;
-    unique_ptr<vector<int>>pointerCurrent;
+    unique_ptr<vector<int>> pointerEncoding;
     int index{};
 
 public:
     RLEIterator(vector<int>& encoding) {
-        this->pointerCurrent = make_unique<vector<int>>(encoding);
+        this->pointerEncoding = make_unique<vector<int>>(encoding);
     }
 
     int next(int nextNthElement) {
-        while (index < pointerCurrent->size() - 1 && pointerCurrent->at(index) - nextNthElement < 0) {
-            nextNthElement -= pointerCurrent->at(index);
+        while (index < pointerEncoding->size() - 1 && pointerEncoding->at(index) - nextNthElement < 0) {
+            nextNthElement -= pointerEncoding->at(index);
             index += 2;
         }
-        if (index == pointerCurrent->size()) {
+        if (index == pointerEncoding->size()) {
             return NOT_FOUND;
         }
 
-        pointerCurrent->at(index) -= nextNthElement;
-        return pointerCurrent->at(index + 1);
+        pointerEncoding->at(index) -= nextNthElement;
+        return pointerEncoding->at(index + 1);
     }
 };
